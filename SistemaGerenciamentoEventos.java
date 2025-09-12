@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
-// Classe para representar uma pessoa inscrita no evento
+// Classe para representar uma pessoa inscrita no projeto
 class Pessoa {
     private String nome;
     private int idade;
@@ -52,24 +52,24 @@ class Pessoa {
     }
 }
 
-// Classe para gerenciar as inscrições do evento
-class GerenciadorEventos {
+// Classe para gerenciar as inscrições do projeto
+class GerenciadorProjetos {
     private final List<Pessoa> inscricoes;
     @SuppressWarnings("FieldMayBeFinal")
-    private String nomeEvento;
+    private String nomeProjeto;
     
-    public GerenciadorEventos(String nomeEvento) {
-        this.nomeEvento = nomeEvento;
+    public GerenciadorProjetos(String nomeProjeto) {
+        this.nomeProjeto = nomeProjeto;
         this.inscricoes = new ArrayList<>();
     }
     
-    // Inscrever uma pessoa no evento
+    // Inscrever uma pessoa no Projeto
     public boolean inscreverPessoa(Pessoa pessoa) {
         // Verificar se já existe uma pessoa com mesmo nome e telefone
         for (Pessoa p : inscricoes) {
             if (p.getNome().equalsIgnoreCase(pessoa.getNome()) && 
                 p.getTelefone().equals(pessoa.getTelefone())) {
-                System.out.println("Erro: Pessoa já inscrita no evento!");
+                System.out.println("Erro: Pessoa já inscrita no Projeto!");
                 return false;
             }
         }
@@ -86,7 +86,7 @@ class GerenciadorEventos {
             return;
         }
         
-        System.out.println("\n=== INSCRIÇÕES DO EVENTO: " + nomeEvento + " ===");
+        System.out.println("\n=== INSCRIÇÕES DO PROJETO: " + nomeProjeto + " ===");
         for (int i = 0; i < inscricoes.size(); i++) {
             System.out.printf("%d. %s\n", i + 1, inscricoes.get(i));
         }
@@ -125,14 +125,14 @@ class GerenciadorEventos {
         return true;
     }
     
-    // Estatísticas do evento
+    // Estatísticas do Projeto
     public void mostrarEstatisticas() {
         if (inscricoes.isEmpty()) {
             System.out.println("Nenhuma inscrição para mostrar estatísticas.");
             return;
         }
         
-        System.out.println("\n=== ESTATÍSTICAS DO EVENTO ===");
+        System.out.println("\n=== ESTATÍSTICAS DO PROJETO ===");
         System.out.println("Total de inscritos: " + inscricoes.size());
         
         // Contagem por gênero
@@ -169,17 +169,17 @@ class GerenciadorEventos {
 }
 
 // Classe principal com interface de usuário
-public class SistemaGerenciamentoEventos {
+public class SistemaGerenciamentoProjetos {
     private static final Scanner scanner = new Scanner(System.in);
-    private static GerenciadorEventos gerenciador;
+    private static GerenciadorProjetos gerenciador;
     
     @SuppressWarnings("ConvertToTryWithResources")
     public static void main(String[] args) {
-        System.out.println("=== SISTEMA DE GERENCIAMENTO DE EVENTOS ===");
-        System.out.print("Digite o nome do evento: ");
-        String nomeEvento = scanner.nextLine();
+        System.out.println("=== SISTEMA DE GERENCIAMENTO DE PROJETOS ===");
+        System.out.print("Digite o nome do Projeto: ");
+        String nomeProjeto = scanner.nextLine();
         
-        gerenciador = new GerenciadorEventos(nomeEvento);
+        gerenciador = new GerenciadorProjetos(nomeProjeto);
         
         while (true) {
             mostrarMenu();
