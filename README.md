@@ -42,3 +42,21 @@ Este projeto é um **sistema de gestão de projetos e equipes** simples, desenvo
 - Computadores
 - Redes entre membros de equipe e entre a equipe e o servidor com o banco de dados
 - Edição e Revisão do código pelo CHATGPT e Microsoft Copilot
+
+---
+
+# TUTORIAL DE USO
+
+- Abra o arquivo "InterfaceProjetos.java" no seu IDE Java (e.g. VSCode, Eclipse) e rode o código.
+
+<img width="783" height="489" alt="image" src="https://github.com/user-attachments/assets/bea360a8-6313-4a36-bb1d-3fb16c03adc4" />
+
+- Escreva um nome para um novo projeto (e.g. ProjetoExemplo):
+
+<img width="781" height="487" alt="image" src="https://github.com/user-attachments/assets/e2fb2ac0-d617-4004-8433-ae4f8aed653a" />
+
+- Adicione uma pessoa ao projeto e defina suas características:
+
+<img width="782" height="490" alt="image" src="https://github.com/user-attachments/assets/ff73a5fa-49aa-4c7d-a068-30ba15e8d7df" />
+
+Seus projetos, incluindo suas variáveis string e numéricas, continuarão salvos (memória persistente) no arquivo "projetos.dat".
