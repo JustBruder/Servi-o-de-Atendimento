@@ -41,3 +41,4 @@ Este projeto é um **sistema de gestão de projetos e equipes** simples, desenvo
 - SGBD
 - Computadores
 - Redes entre membros de equipe e entre a equipe e o servidor com o banco de dados
+- Edição e Revisão do código pelo CHATGPT e Microsoft Copilot
