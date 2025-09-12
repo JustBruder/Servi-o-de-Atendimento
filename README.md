@@ -22,11 +22,10 @@ Este projeto é um **sistema de gestão de projetos e equipes** simples, desenvo
   - Data
   - Local
   - Equipe
-
-- Inscrever pessoas em projetos.
-- Listar pessoas cadastradas.
-- Listar projetos cadastrados.
-- Exibir os participantes de cada projeto e equipe.
+  - Inscrever pessoas em projetos.
+  - Listar pessoas cadastradas.
+  - Listar projetos cadastrados.
+  - Exibir os participantes de cada projeto e equipe.
 
 ---
 
@@ -34,6 +33,7 @@ Este projeto é um **sistema de gestão de projetos e equipes** simples, desenvo
 
 - **Java** (versão 8+)
 - Eclipse
+- VSCode
 - Programação Orientada a Objetos (POO)
 - Estruturas de dados (listas)
 - Servidores
