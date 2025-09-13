@@ -7,12 +7,18 @@ import javax.swing.table.DefaultTableModel;
 
 // Criar classe para Projetos
 class Projeto implements Serializable {
-    int id;
-    String nome, descricao, local, equipe;
-    String dataInicio, dataFim;
-    java.util.List<Pessoa> participantes = new ArrayList<>();
+    private static final long serialVersionUID = 1L;
 
-    Projeto(int id, String nome, String descricao, String dataInicio, String dataFim, String local, String equipe) {
+    private int id;
+    private String nome;
+    private String descricao;
+    private String local;
+    private String equipe;
+    private String dataInicio;
+    private String dataFim;
+    private java.util.List<Pessoa> participantes = new ArrayList<>();
+
+    public Projeto(int id, String nome, String descricao, String dataInicio, String dataFim, String local, String equipe) {
         this.id = id;
         this.nome = nome;
         this.descricao = descricao;
@@ -21,38 +27,101 @@ class Projeto implements Serializable {
         this.local = local;
         this.equipe = equipe;
     }
+
+    // Getters e Setters
+    public int getId() { return id; }
+    public void setId(int id) { this.id = id; }
+
+    public String getNome() { return nome; }
+    public void setNome(String nome) { this.nome = nome; }
+
+    public String getDescricao() { return descricao; }
+    public void setDescricao(String descricao) { this.descricao = descricao; }
+
+    public String getLocal() { return local; }
+    public void setLocal(String local) { this.local = local; }
+
+    public String getEquipe() { return equipe; }
+    public void setEquipe(String equipe) { this.equipe = equipe; }
+
+    public String getDataInicio() { return dataInicio; }
+    public void setDataInicio(String dataInicio) { this.dataInicio = dataInicio; }
+
+    public String getDataFim() { return dataFim; }
+    public void setDataFim(String dataFim) { this.dataFim = dataFim; }
+
+    public java.util.List<Pessoa> getParticipantes() { return participantes; }
+    public void setParticipantes(java.util.List<Pessoa> participantes) { this.participantes = participantes; }
 }
 
 // Criar classe para Pessoas
 class Pessoa implements Serializable {
-    int id;
-    String nome, email, telefone, habilidades;
-    java.util.List<Projeto> projetos = new ArrayList<>();
+    private static final long serialVersionUID = 1L;
 
-    Pessoa(int id, String nome, String email, String telefone, String habilidades) {
+    private int id;
+    private String nome;
+    private String email;
+    private String telefone;
+    private String habilidades;
+    private java.util.List<Projeto> projetos = new ArrayList<>();
+
+    public Pessoa(int id, String nome, String email, String telefone, String habilidades) {
         this.id = id;
         this.nome = nome;
         this.email = email;
         this.telefone = telefone;
         this.habilidades = habilidades;
     }
+
+    // Getters e Setters
+    public int getId() { return id; }
+    public void setId(int id) { this.id = id; }
+
+    public String getNome() { return nome; }
+    public void setNome(String nome) { this.nome = nome; }
+
+    public String getEmail() { return email; }
+    public void setEmail(String email) { this.email = email; }
+
+    public String getTelefone() { return telefone; }
+    public void setTelefone(String telefone) { this.telefone = telefone; }
+
+    public String getHabilidades() { return habilidades; }
+    public void setHabilidades(String habilidades) { this.habilidades = habilidades; }
+
+    public java.util.List<Projeto> getProjetos() { return projetos; }
+    public void setProjetos(java.util.List<Projeto> projetos) { this.projetos = projetos; }
 }
 
 // Criar classe para Inscrições
 class Inscricao implements Serializable {
-    int id;
-    Projeto projeto;
-    Pessoa pessoa;
+    private static final long serialVersionUID = 1L;
 
-    Inscricao(int id, Projeto projeto, Pessoa pessoa) {
+    private int id;
+    private Projeto projeto;
+    private Pessoa pessoa;
+
+    public Inscricao(int id, Projeto projeto, Pessoa pessoa) {
         this.id = id;
         this.projeto = projeto;
         this.pessoa = pessoa;
     }
+
+    // Getters e Setters
+    public int getId() { return id; }
+    public void setId(int id) { this.id = id; }
+
+    public Projeto getProjeto() { return projeto; }
+    public void setProjeto(Projeto projeto) { this.projeto = projeto; }
+
+    public Pessoa getPessoa() { return pessoa; }
+    public void setPessoa(Pessoa pessoa) { this.pessoa = pessoa; }
 }
 
 // Criar classe para Cadastro de Equipes
 public class CadastroDeEquipe extends JFrame {
+
+    private static final long serialVersionUID = 1L;
 
     private java.util.List<Projeto> projetos = new ArrayList<>();
     private java.util.List<Pessoa> pessoas = new ArrayList<>();
@@ -180,17 +249,22 @@ public class CadastroDeEquipe extends JFrame {
             return valorPadrao;
         }
     }
-    
+
     // Atualizar tabelas
     private void atualizarTabelas() {
+        // limpa antes de popular para evitar duplicação
+        projetosModel.setRowCount(0);
+        pessoasModel.setRowCount(0);
+        inscricoesModel.setRowCount(0);
+
         for (Projeto p : projetos) {
-            projetosModel.addRow(new Object[]{p.id, p.nome, p.local, p.equipe});
+            projetosModel.addRow(new Object[]{p.getId(), p.getNome(), p.getLocal(), p.getEquipe()});
         }
         for (Pessoa pes : pessoas) {
-            pessoasModel.addRow(new Object[]{pes.id, pes.nome, pes.email});
+            pessoasModel.addRow(new Object[]{pes.getId(), pes.getNome(), pes.getEmail()});
         }
         for (Inscricao insc : inscricoes) {
-            inscricoesModel.addRow(new Object[]{insc.projeto.nome, insc.pessoa.nome});
+            inscricoesModel.addRow(new Object[]{insc.getProjeto().getNome(), insc.getPessoa().getNome()});
         }
     }
 
@@ -217,7 +291,7 @@ public class CadastroDeEquipe extends JFrame {
             Projeto p = new Projeto(projetos.size() + 1, nome.getText(), descricao.getText(),
                     inicio.getText(), fim.getText(), local.getText(), equipe.getText());
             projetos.add(p);
-            projetosModel.addRow(new Object[]{p.id, p.nome, p.local, p.equipe});
+            projetosModel.addRow(new Object[]{p.getId(), p.getNome(), p.getLocal(), p.getEquipe()});
             salvarDados();
         }
     }
@@ -239,7 +313,7 @@ public class CadastroDeEquipe extends JFrame {
         int option = JOptionPane.showConfirmDialog(this, msg, "Nova Pessoa", JOptionPane.OK_CANCEL_OPTION);
         if (option == JOptionPane.OK_OPTION) {
             for (Pessoa existente : pessoas) {
-                if (existente.email.equalsIgnoreCase(email.getText())) {
+                if (existente.getEmail().equalsIgnoreCase(email.getText())) {
                     JOptionPane.showMessageDialog(this, "Email já cadastrado!");
                     return;
                 }
@@ -247,7 +321,7 @@ public class CadastroDeEquipe extends JFrame {
             Pessoa p = new Pessoa(pessoas.size() + 1, nome.getText(), email.getText(),
                     telefone.getText(), habilidades.getText());
             pessoas.add(p);
-            pessoasModel.addRow(new Object[]{p.id, p.nome, p.email});
+            pessoasModel.addRow(new Object[]{p.getId(), p.getNome(), p.getEmail()});
             salvarDados();
         }
     }
@@ -259,8 +333,12 @@ public class CadastroDeEquipe extends JFrame {
             return;
         }
 
-        String[] nomesProjetos = projetos.stream().map(p -> p.id + " - " + p.nome).toArray(String[]::new);
-        String[] nomesPessoas = pessoas.stream().map(p -> p.id + " - " + p.nome).toArray(String[]::new);
+        String[] nomesProjetos = projetos.stream()
+                .map(p -> p.getId() + " - " + p.getNome())
+                .toArray(String[]::new);
+        String[] nomesPessoas = pessoas.stream()
+                .map(p -> p.getId() + " - " + p.getNome())
+                .toArray(String[]::new);
 
         JComboBox<String> comboProjetos = new JComboBox<>(nomesProjetos);
         JComboBox<String> comboPessoas = new JComboBox<>(nomesPessoas);
@@ -276,7 +354,7 @@ public class CadastroDeEquipe extends JFrame {
             Pessoa pessoa = pessoas.get(pessIndex);
 
             for (Inscricao i : inscricoes) {
-                if (i.projeto == projeto && i.pessoa == pessoa) {
+                if (i.getProjeto() == projeto && i.getPessoa() == pessoa) {
                     JOptionPane.showMessageDialog(this, "Essa pessoa já está inscrita nesse projeto!");
                     return;
                 }
@@ -284,10 +362,10 @@ public class CadastroDeEquipe extends JFrame {
 
             Inscricao insc = new Inscricao(inscricoes.size() + 1, projeto, pessoa);
             inscricoes.add(insc);
-            projeto.participantes.add(pessoa);
-            pessoa.projetos.add(projeto);
+            projeto.getParticipantes().add(pessoa);
+            pessoa.getProjetos().add(projeto);
 
-            inscricoesModel.addRow(new Object[]{projeto.nome, pessoa.nome});
+            inscricoesModel.addRow(new Object[]{projeto.getNome(), pessoa.getNome()});
             salvarDados();
         }
     }
@@ -296,11 +374,11 @@ public class CadastroDeEquipe extends JFrame {
     private void atualizarRelatorios() {
         StringBuilder sbProjetos = new StringBuilder();
         for (Projeto p : projetos) {
-            sbProjetos.append("[").append(p.id).append("] ").append(p.nome)
-                    .append(" | Local: ").append(p.local != null ? p.local : "-")
-                    .append(" | Participantes: ").append(p.participantes.size()).append("\n");
-            for (Pessoa pessoa : p.participantes) {
-                sbProjetos.append("   - ").append(pessoa.nome).append(" (").append(pessoa.email).append(")\n");
+            sbProjetos.append("[").append(p.getId()).append("] ").append(p.getNome())
+                    .append(" | Local: ").append(p.getLocal() != null ? p.getLocal() : "-")
+                    .append(" | Participantes: ").append(p.getParticipantes().size()).append("\n");
+            for (Pessoa pessoa : p.getParticipantes()) {
+                sbProjetos.append("   - ").append(pessoa.getNome()).append(" (").append(pessoa.getEmail()).append(")\n");
             }
             sbProjetos.append("\n");
         }
@@ -308,11 +386,11 @@ public class CadastroDeEquipe extends JFrame {
 
         StringBuilder sbPessoas = new StringBuilder();
         for (Pessoa pes : pessoas) {
-            sbPessoas.append("[").append(pes.id).append("] ").append(pes.nome)
-                    .append(" | Email: ").append(pes.email)
-                    .append(" | Projetos: ").append(pes.projetos.size()).append("\n");
-            for (Projeto prj : pes.projetos) {
-                sbPessoas.append("   - ").append(prj.nome).append("\n");
+            sbPessoas.append("[").append(pes.getId()).append("] ").append(pes.getNome())
+                    .append(" | Email: ").append(pes.getEmail())
+                    .append(" | Projetos: ").append(pes.getProjetos().size()).append("\n");
+            for (Projeto prj : pes.getProjetos()) {
+                sbPessoas.append("   - ").append(prj.getNome()).append("\n");
             }
             sbPessoas.append("\n");
         }
