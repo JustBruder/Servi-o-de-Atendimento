@@ -49,7 +49,7 @@ class Inscricao implements Serializable {
     }
 }
 
-public class GestaoProjetosApp extends JFrame {
+public class CadastroDeEquipe extends JFrame {
 
     private java.util.List<Projeto> projetos = new ArrayList<>();
     private java.util.List<Pessoa> pessoas = new ArrayList<>();
@@ -65,7 +65,7 @@ public class GestaoProjetosApp extends JFrame {
     private static final String ARQUIVO_PESSOAS = "pessoas.dat";
     private static final String ARQUIVO_INSCRICOES = "inscricoes.dat";
 
-    public GestaoProjetosApp() {
+    public CadastroDeEquipe() {
         setTitle("Sistema de Gestão de Projetos");
         setSize(900, 600);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -314,7 +314,7 @@ public class GestaoProjetosApp extends JFrame {
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
-            new GestaoProjetosApp().setVisible(true);
+            new CadastroDeEquipe().setVisible(true);
         });
     }
 }
