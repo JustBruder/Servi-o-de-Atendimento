@@ -47,16 +47,14 @@ Este projeto é um **sistema de gestão de projetos e equipes** simples, desenvo
 
 # TUTORIAL DE USO
 
-- Abra o arquivo "InterfaceProjetos.java" no seu IDE Java (e.g. VSCode, Eclipse) e rode o código.
+- Abra o arquivo "CadastroDeEquipe.java" no seu IDE Java (e.g. VSCode, Eclipse) e rode o código.
 
-<img width="783" height="489" alt="image" src="https://github.com/user-attachments/assets/bea360a8-6313-4a36-bb1d-3fb16c03adc4" />
+<img width="877" height="589" alt="image" src="https://github.com/user-attachments/assets/33975148-97c0-44f0-9a5d-f909bb0abc22" />
 
-- Escreva um nome para um novo projeto (e.g. ProjetoExemplo):
+- Escreva um nome para um novo projeto (e.g. ProjetoExemplo)
+- Adicione uma pessoa (e suas informações)
+- Inscreva uma pessoa a algum projeto
 
-<img width="781" height="487" alt="image" src="https://github.com/user-attachments/assets/e2fb2ac0-d617-4004-8433-ae4f8aed653a" />
+<img width="875" height="585" alt="image" src="https://github.com/user-attachments/assets/2ba5652a-aa07-49c2-8a9d-1d16ef2c2ea5" />
 
-- Adicione uma pessoa ao projeto e defina suas características:
-
-<img width="782" height="490" alt="image" src="https://github.com/user-attachments/assets/ff73a5fa-49aa-4c7d-a068-30ba15e8d7df" />
-
-Seus projetos, incluindo suas variáveis string e numéricas, continuarão salvos (memória persistente) no arquivo "projetos.dat".
+Seus projetos e pessoas, incluindo suas variáveis string e numéricas, continuarão salvos (memória persistente).
