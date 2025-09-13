@@ -1,11 +1,12 @@
 // Otherwise, add: package your.package.name;
 
 import java.awt.*;
+import java.io.*;
 import java.util.*;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
-class Projeto {
+class Projeto implements Serializable {
     int id;
     String nome, descricao, local, equipe;
     String dataInicio, dataFim;
@@ -22,7 +23,7 @@ class Projeto {
     }
 }
 
-class Pessoa {
+class Pessoa implements Serializable {
     int id;
     String nome, email, telefone, habilidades;
     java.util.List<Projeto> projetos = new ArrayList<>();
@@ -36,7 +37,7 @@ class Pessoa {
     }
 }
 
-class Inscricao {
+class Inscricao implements Serializable {
     int id;
     Projeto projeto;
     Pessoa pessoa;
@@ -50,9 +51,9 @@ class Inscricao {
 
 public class GestaoProjetosApp extends JFrame {
 
-    private final java.util.List<Projeto> projetos = new java.util.ArrayList<>();
-    private final java.util.List<Pessoa> pessoas = new java.util.ArrayList<>();
-    private final java.util.List<Inscricao> inscricoes = new java.util.ArrayList<>();
+    private java.util.List<Projeto> projetos = new ArrayList<>();
+    private java.util.List<Pessoa> pessoas = new ArrayList<>();
+    private java.util.List<Inscricao> inscricoes = new ArrayList<>();
 
     private DefaultTableModel projetosModel;
     private DefaultTableModel pessoasModel;
@@ -60,10 +61,17 @@ public class GestaoProjetosApp extends JFrame {
     private JTextArea relatorioProjetos;
     private JTextArea relatorioPessoas;
 
+    private static final String ARQUIVO_PROJETOS = "projetos.dat";
+    private static final String ARQUIVO_PESSOAS = "pessoas.dat";
+    private static final String ARQUIVO_INSCRICOES = "inscricoes.dat";
+
     public GestaoProjetosApp() {
         setTitle("Sistema de Gestão de Projetos");
         setSize(900, 600);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
+
+        // Carrega dados salvos (se existirem)
+        carregarDados();
 
         JTabbedPane abas = new JTabbedPane();
 
@@ -127,8 +135,62 @@ public class GestaoProjetosApp extends JFrame {
         abas.add("Relatórios", relatoriosContainer);
 
         add(abas);
+
+        // Preenche tabelas com os dados carregados
+        atualizarTabelas();
+
+        // Salvar ao fechar
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent e) {
+                salvarDados();
+            }
+        });
     }
 
+    // ---------- Persistência ----------
+    private void salvarDados() {
+        salvarObjeto(projetos, ARQUIVO_PROJETOS);
+        salvarObjeto(pessoas, ARQUIVO_PESSOAS);
+        salvarObjeto(inscricoes, ARQUIVO_INSCRICOES);
+    }
+
+    private void carregarDados() {
+        projetos = carregarObjeto(ARQUIVO_PROJETOS, new ArrayList<>());
+        pessoas = carregarObjeto(ARQUIVO_PESSOAS, new ArrayList<>());
+        inscricoes = carregarObjeto(ARQUIVO_INSCRICOES, new ArrayList<>());
+    }
+
+    private void salvarObjeto(Object obj, String arquivo) {
+        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(arquivo))) {
+            out.writeObject(obj);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    private <T> T carregarObjeto(String arquivo, T valorPadrao) {
+        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(arquivo))) {
+            return (T) in.readObject();
+        } catch (Exception e) {
+            return valorPadrao;
+        }
+    }
+
+    private void atualizarTabelas() {
+        for (Projeto p : projetos) {
+            projetosModel.addRow(new Object[]{p.id, p.nome, p.local, p.equipe});
+        }
+        for (Pessoa pes : pessoas) {
+            pessoasModel.addRow(new Object[]{pes.id, pes.nome, pes.email});
+        }
+        for (Inscricao insc : inscricoes) {
+            inscricoesModel.addRow(new Object[]{insc.projeto.nome, insc.pessoa.nome});
+        }
+    }
+
+    // ---------- Funções originais ----------
     private void cadastrarProjeto() {
         JTextField nome = new JTextField();
         JTextField descricao = new JTextField();
@@ -152,6 +214,7 @@ public class GestaoProjetosApp extends JFrame {
                     inicio.getText(), fim.getText(), local.getText(), equipe.getText());
             projetos.add(p);
             projetosModel.addRow(new Object[]{p.id, p.nome, p.local, p.equipe});
+            salvarDados();
         }
     }
 
@@ -180,6 +243,7 @@ public class GestaoProjetosApp extends JFrame {
                     telefone.getText(), habilidades.getText());
             pessoas.add(p);
             pessoasModel.addRow(new Object[]{p.id, p.nome, p.email});
+            salvarDados();
         }
     }
 
@@ -218,6 +282,7 @@ public class GestaoProjetosApp extends JFrame {
             pessoa.projetos.add(projeto);
 
             inscricoesModel.addRow(new Object[]{projeto.nome, pessoa.nome});
+            salvarDados();
         }
     }
 
