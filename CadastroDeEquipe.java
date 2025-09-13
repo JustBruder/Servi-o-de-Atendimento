@@ -1,11 +1,11 @@
-// Otherwise, add: package your.package.name;
-
+// Definir pacotes a serem usados
 import java.awt.*;
 import java.io.*;
 import java.util.*;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
+// Criar classe para Projetos
 class Projeto implements Serializable {
     int id;
     String nome, descricao, local, equipe;
@@ -23,6 +23,7 @@ class Projeto implements Serializable {
     }
 }
 
+// Criar classe para Pessoas
 class Pessoa implements Serializable {
     int id;
     String nome, email, telefone, habilidades;
@@ -37,6 +38,7 @@ class Pessoa implements Serializable {
     }
 }
 
+// Criar classe para Inscrições
 class Inscricao implements Serializable {
     int id;
     Projeto projeto;
@@ -49,6 +51,7 @@ class Inscricao implements Serializable {
     }
 }
 
+// Criar classe para Cadastro de Equipes
 public class CadastroDeEquipe extends JFrame {
 
     private java.util.List<Projeto> projetos = new ArrayList<>();
@@ -75,7 +78,7 @@ public class CadastroDeEquipe extends JFrame {
 
         JTabbedPane abas = new JTabbedPane();
 
-        // --- Aba Projetos ---
+        // Aba Projetos da interface
         JPanel projetosPanel = new JPanel(new BorderLayout());
         projetosModel = new DefaultTableModel(new String[]{"ID", "Nome", "Local", "Equipe"}, 0);
         JTable tabelaProjetos = new JTable(projetosModel);
@@ -87,7 +90,7 @@ public class CadastroDeEquipe extends JFrame {
 
         abas.add("Projetos", projetosPanel);
 
-        // --- Aba Pessoas ---
+        // Aba Pessoas da interface
         JPanel pessoasPanel = new JPanel(new BorderLayout());
         pessoasModel = new DefaultTableModel(new String[]{"ID", "Nome", "Email"}, 0);
         JTable tabelaPessoas = new JTable(pessoasModel);
@@ -99,7 +102,7 @@ public class CadastroDeEquipe extends JFrame {
 
         abas.add("Pessoas", pessoasPanel);
 
-        // --- Aba Inscrições ---
+        // Aba Inscrições da interface
         JPanel inscricoesPanel = new JPanel(new BorderLayout());
         inscricoesModel = new DefaultTableModel(new String[]{"Projeto", "Pessoa"}, 0);
         JTable tabelaInscricoes = new JTable(inscricoesModel);
@@ -111,7 +114,7 @@ public class CadastroDeEquipe extends JFrame {
 
         abas.add("Inscrições", inscricoesPanel);
 
-        // --- Aba Relatórios ---
+        // Aba Relatórios da interface
         JPanel relatoriosPanel = new JPanel(new GridLayout(2, 1));
 
         relatorioProjetos = new JTextArea();
@@ -148,7 +151,7 @@ public class CadastroDeEquipe extends JFrame {
         });
     }
 
-    // ---------- Persistência ----------
+    // Persistencia de dados
     private void salvarDados() {
         salvarObjeto(projetos, ARQUIVO_PROJETOS);
         salvarObjeto(pessoas, ARQUIVO_PESSOAS);
@@ -177,7 +180,8 @@ public class CadastroDeEquipe extends JFrame {
             return valorPadrao;
         }
     }
-
+    
+    // Atualizar tabelas
     private void atualizarTabelas() {
         for (Projeto p : projetos) {
             projetosModel.addRow(new Object[]{p.id, p.nome, p.local, p.equipe});
@@ -190,7 +194,7 @@ public class CadastroDeEquipe extends JFrame {
         }
     }
 
-    // ---------- Funções originais ----------
+    // Funções originais
     private void cadastrarProjeto() {
         JTextField nome = new JTextField();
         JTextField descricao = new JTextField();
@@ -218,6 +222,7 @@ public class CadastroDeEquipe extends JFrame {
         }
     }
 
+    // Cadastrar Pessoas
     private void cadastrarPessoa() {
         JTextField nome = new JTextField();
         JTextField email = new JTextField();
@@ -247,6 +252,7 @@ public class CadastroDeEquipe extends JFrame {
         }
     }
 
+    // Cadastrar Inscricoes
     private void cadastrarInscricao() {
         if (projetos.isEmpty() || pessoas.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Cadastre pelo menos 1 projeto e 1 pessoa primeiro!");
@@ -286,6 +292,7 @@ public class CadastroDeEquipe extends JFrame {
         }
     }
 
+    // Atualizar relatorios
     private void atualizarRelatorios() {
         StringBuilder sbProjetos = new StringBuilder();
         for (Projeto p : projetos) {
