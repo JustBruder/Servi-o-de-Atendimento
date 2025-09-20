@@ -17,7 +17,7 @@ Este projeto é um **sistema de gestão de projetos e equipes** simples, desenvo
   - Equipe
   - Portador de deficiência (Sim/Não)
 
-- Cadastrar projetos com:
+- Cadastrar projetos e equipes com:
   - Nome do projeto
   - Data
   - Local
@@ -39,7 +39,8 @@ Este projeto é um **sistema de gestão de projetos e equipes** simples, desenvo
 - Servidores
 - Banco de dados
 - SGBD
-- Computadores
+- Computadores e periféricos
+- Celulares e/ou tablets 
 - Redes entre membros de equipe e entre a equipe e o servidor com o banco de dados
 - Edição e Revisão do código pelo CHATGPT e Microsoft Copilot
 
