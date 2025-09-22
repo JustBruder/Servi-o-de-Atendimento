@@ -2,6 +2,7 @@
 import java.awt.*;
 import java.io.*;
 import java.util.*;
+import java.util.List;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
@@ -133,9 +134,10 @@ public class CadastroDeEquipe extends JFrame {
     private JTextArea relatorioProjetos;
     private JTextArea relatorioPessoas;
 
-    private static final String ARQUIVO_PROJETOS = "projetos.dat";
-    private static final String ARQUIVO_PESSOAS = "pessoas.dat";
-    private static final String ARQUIVO_INSCRICOES = "inscricoes.dat";
+    // Persistência em CSV
+    private static final String ARQUIVO_PROJETOS = "projetos.csv";
+    private static final String ARQUIVO_PESSOAS = "pessoas.csv";
+    private static final String ARQUIVO_INSCRICOES = "inscricoes.csv";
 
     public CadastroDeEquipe() {
         setTitle("Sistema de Gestão de Projetos");
@@ -222,32 +224,15 @@ public class CadastroDeEquipe extends JFrame {
 
     // Persistencia de dados
     private void salvarDados() {
-        salvarObjeto(projetos, ARQUIVO_PROJETOS);
-        salvarObjeto(pessoas, ARQUIVO_PESSOAS);
-        salvarObjeto(inscricoes, ARQUIVO_INSCRICOES);
+    salvarProjetosCSV();
+    salvarPessoasCSV();
+    salvarInscricoesCSV();
     }
 
     private void carregarDados() {
-        projetos = carregarObjeto(ARQUIVO_PROJETOS, new ArrayList<>());
-        pessoas = carregarObjeto(ARQUIVO_PESSOAS, new ArrayList<>());
-        inscricoes = carregarObjeto(ARQUIVO_INSCRICOES, new ArrayList<>());
-    }
-
-    private void salvarObjeto(Object obj, String arquivo) {
-        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(arquivo))) {
-            out.writeObject(obj);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @SuppressWarnings("unchecked")
-    private <T> T carregarObjeto(String arquivo, T valorPadrao) {
-        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(arquivo))) {
-            return (T) in.readObject();
-        } catch (Exception e) {
-            return valorPadrao;
-        }
+    projetos = carregarProjetosCSV();
+    pessoas = carregarPessoasCSV();
+    inscricoes = carregarInscricoesCSV();
     }
 
     // Atualizar tabelas
@@ -395,6 +380,134 @@ public class CadastroDeEquipe extends JFrame {
             sbPessoas.append("\n");
         }
         relatorioPessoas.setText(sbPessoas.length() > 0 ? sbPessoas.toString() : "Nenhuma pessoa cadastrada.");
+    }
+
+    private void salvarProjetosCSV() {
+    try (PrintWriter pw = new PrintWriter(new FileWriter(ARQUIVO_PROJETOS))) {
+        pw.println("id;nome;descricao;dataInicio;dataFim;local;equipe");
+        for (Projeto p : projetos) {
+            pw.printf("%d;%s;%s;%s;%s;%s;%s%n",
+                    p.getId(),
+                    p.getNome(),
+                    p.getDescricao(),
+                    p.getDataInicio(),
+                    p.getDataFim(),
+                    p.getLocal(),
+                    p.getEquipe());
+        }
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+}
+
+private List<Projeto> carregarProjetosCSV() {
+    List<Projeto> lista = new ArrayList<>();
+    File f = new File(ARQUIVO_PROJETOS);
+    if (!f.exists()) return lista;
+    try (BufferedReader br = new BufferedReader(new FileReader(f))) {
+        String linha = br.readLine(); // cabeçalho
+        while ((linha = br.readLine()) != null) {
+            String[] parts = linha.split(";");
+            if (parts.length >= 7) {
+                Projeto p = new Projeto(
+                        Integer.parseInt(parts[0]),
+                        parts[1],
+                        parts[2],
+                        parts[3],
+                        parts[4],
+                        parts[5],
+                        parts[6]);
+                lista.add(p);
+            }
+        }
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+    return lista;
+    }
+
+    private void salvarPessoasCSV() {
+    try (PrintWriter pw = new PrintWriter(new FileWriter(ARQUIVO_PESSOAS))) {
+        pw.println("id;nome;email;telefone;habilidades");
+        for (Pessoa p : pessoas) {
+            pw.printf("%d;%s;%s;%s;%s%n",
+                    p.getId(),
+                    p.getNome(),
+                    p.getEmail(),
+                    p.getTelefone(),
+                    p.getHabilidades());
+        }
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+    }
+
+    private List<Pessoa> carregarPessoasCSV() {
+    List<Pessoa> lista = new ArrayList<>();
+    File f = new File(ARQUIVO_PESSOAS);
+    if (!f.exists()) return lista;
+    try (BufferedReader br = new BufferedReader(new FileReader(f))) {
+        String linha = br.readLine(); // cabeçalho
+        while ((linha = br.readLine()) != null) {
+            String[] parts = linha.split(";");
+            if (parts.length >= 5) {
+                Pessoa p = new Pessoa(
+                        Integer.parseInt(parts[0]),
+                        parts[1],
+                        parts[2],
+                        parts[3],
+                        parts[4]);
+                lista.add(p);
+            }
+        }
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+    return lista;
+    }
+
+    private void salvarInscricoesCSV() {
+    try (PrintWriter pw = new PrintWriter(new FileWriter(ARQUIVO_INSCRICOES))) {
+        pw.println("id;idProjeto;idPessoa");
+        for (Inscricao i : inscricoes) {
+            pw.printf("%d;%d;%d%n",
+                    i.getId(),
+                    i.getProjeto().getId(),
+                    i.getPessoa().getId());
+        }
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+    }
+
+    private List<Inscricao> carregarInscricoesCSV() {
+    List<Inscricao> lista = new ArrayList<>();
+    File f = new File(ARQUIVO_INSCRICOES);
+    if (!f.exists()) return lista;
+    try (BufferedReader br = new BufferedReader(new FileReader(f))) {
+        String linha = br.readLine(); // cabeçalho
+        while ((linha = br.readLine()) != null) {
+            String[] parts = linha.split(";");
+            if (parts.length >= 3) {
+                int id = Integer.parseInt(parts[0]);
+                int idProj = Integer.parseInt(parts[1]);
+                int idPes = Integer.parseInt(parts[2]);
+
+                Projeto proj = projetos.stream().filter(p -> p.getId() == idProj).findFirst().orElse(null);
+                Pessoa pes = pessoas.stream().filter(p -> p.getId() == idPes).findFirst().orElse(null);
+
+                if (proj != null && pes != null) {
+                    Inscricao i = new Inscricao(id, proj, pes);
+                    proj.getParticipantes().add(pes);
+                    pes.getProjetos().add(proj);
+                    lista.add(i);
+                }
+            }
+        }
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+    return lista;
     }
 
     public static void main(String[] args) {
