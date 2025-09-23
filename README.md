@@ -1,5 +1,5 @@
 # Serviço de Gestão de Projetos e Equipes
-- Serviço de atendimento com cadastro de eventos e pessoas.
+- Serviço de atendimento com cadastro de projetos e equipes correspondentes.
 
 Este projeto é um **sistema de gestão de projetos e equipes** simples, desenvolvido em **Java**, que permite cadastrar **pessoas** e vinculá-las a **projetos**. O sistema segue a cultura organizacional da Oracle, mirando a qualidade e eficiência na gestão de seus projetos e equipes. Entretanto, o sistema pode ser usado para fins acadêmicos, projetos de extensão ou como base para aplicações mais complexas.
 
