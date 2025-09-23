@@ -58,4 +58,20 @@ Este projeto é um **sistema de gestão de projetos e equipes** simples, desenvo
 
 <img width="875" height="585" alt="image" src="https://github.com/user-attachments/assets/2ba5652a-aa07-49c2-8a9d-1d16ef2c2ea5" />
 
-Seus projetos e pessoas, incluindo suas variáveis string e numéricas, continuarão salvos (memória persistente).
+Seus projetos e pessoas, incluindo suas variáveis string e numéricas, continuarão salvos em arquivos CSV (memória persistente), constituindo 3 tabelas: 
+
+<img width="870" height="161" alt="image" src="https://github.com/user-attachments/assets/e8df70eb-0e32-466e-8939-8333ea929a1e" />
+
+O usuário pode editar as tabelas manualmente, e o gerenciador vai entender as modificações quando ele for inicializado.
+
+---
+
+# USO DOS ARQUIVOS EM SGBDs (e.g. PostgreSQL)
+
+- Para criar e usar um banco de dados com as 3 tabelas usadas no gerenciador de projetos:
+
+- 
+
+
+
+
